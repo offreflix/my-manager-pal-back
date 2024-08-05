@@ -1,0 +1,10 @@
+
+###
+# GET /profile
+curl http://localhost:3000/auth/profile
+###
+# POST /auth/login
+curl -X POST http://localhost:3000/auth/login -d '{"username": "john", "password": "changeme"}' -H "Content-Type: application/json"
+###
+# GET /profile using access_token returned from previous step as bearer code
+curl http://localhost:3000/auth/profile -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInVzZXJuYW1lIjoiam9obiIsImlhdCI6MTcyMjg3OTY5MiwiZXhwIjoxNzIyODc5NzUyfQ.BO7SkvDw1xStONPBgBMF0LQbVMDUSJNrtDd_miM9feo"
