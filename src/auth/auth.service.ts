@@ -1,6 +1,7 @@
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '../users/users.service';
 import { CreateUserDto } from 'src/users/dto/user.dto';
+import * as bcrypt from 'bcrypt';
 import {
   BadRequestException,
   Injectable,
@@ -16,12 +17,19 @@ export class AuthService {
 
   async signIn(
     username: string,
-    pass: string,
+    password: string,
   ): Promise<{ access_token: string }> {
     const user = await this.usersService.findOne(username);
-    if (user?.password !== pass) {
+    if (!user) {
+      throw new UnauthorizedException("User or password doesn't match");
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    if (!isMatch) {
       throw new UnauthorizedException();
     }
+
     const payload = { sub: user.userId, username: user.username };
     return {
       access_token: await this.jwtService.signAsync(payload),

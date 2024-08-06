@@ -4,11 +4,11 @@
 curl http://localhost:3000/auth/profile
 ###
 # POST /auth/login
-curl -X POST http://localhost:3000/auth/login -d '{"username": "reflix", "password": "123456"}' -H "Content-Type: application/json"
+curl -X POST http://localhost:3000/auth/login -d '{"username": "reflix22", "password": "123456"}' -H "Content-Type: application/json"
 ###
 # GET /profile using access_token returned from previous step as bearer code
 curl http://localhost:3000/auth/profile -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInVzZXJuYW1lIjoiam9obiIsImlhdCI6MTcyMjg3OTY5MiwiZXhwIjoxNzIyODc5NzUyfQ.BO7SkvDw1xStONPBgBMF0LQbVMDUSJNrtDd_miM9feo"
 
 ###
 # POST /auth/register
-curl -X POST http://localhost:3000/auth/register -d '{"username": "reflix", "password": "123456", "name": "Joãozinho", "email": "1322@g.com"}' -H "Content-Type: application/json"
+curl -X POST http://localhost:3000/auth/register -d '{"username": "reflix2222", "password": "123456", "name": "Joãozinho", "email": "re2222f@g.com"}' -H "Content-Type: application/json"
