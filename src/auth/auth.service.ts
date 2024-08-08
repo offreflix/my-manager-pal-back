@@ -19,21 +19,26 @@ export class AuthService {
     username: string,
     password: string,
   ): Promise<{ access_token: string }> {
-    const user = await this.usersService.findOne(username);
-    if (!user) {
-      throw new UnauthorizedException("User or password doesn't match");
+    try {
+      const user = await this.usersService.findOne(username);
+      if (!user) {
+        throw new UnauthorizedException("User or password doesn't match");
+      }
+
+      const isMatch = await bcrypt.compare(password, user.password);
+
+      if (!isMatch) {
+        throw new UnauthorizedException("User or password doesn't match");
+      }
+
+      const payload = { sub: user.userId, username: user.username };
+      return {
+        access_token: await this.jwtService.signAsync(payload),
+      };
+    } catch (error) {
+      console.log(error);
+      throw error;
     }
-
-    const isMatch = await bcrypt.compare(password, user.password);
-
-    if (!isMatch) {
-      throw new UnauthorizedException();
-    }
-
-    const payload = { sub: user.userId, username: user.username };
-    return {
-      access_token: await this.jwtService.signAsync(payload),
-    };
   }
 
   async register(data: CreateUserDto) {
