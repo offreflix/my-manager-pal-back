@@ -57,7 +57,7 @@ model Installment {
 
 model Category {
   id           Int           @id @default(autoincrement())
-  name         String
+  name         String        @unique
   transactions Transaction[]
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt

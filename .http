@@ -12,3 +12,11 @@ curl http://localhost:3000/auth/profile -H "Authorization: Bearer eyJhbGciOiJIUz
 ###
 # POST /auth/register
 curl -X POST http://localhost:3000/auth/register -d '{"username": "reflix2222", "password": "123456", "name": "Joãozinho", "email": "re2222f@g.com"}' -H "Content-Type: application/json"
+
+
+###
+# POST /categories
+curl -X POST http://localhost:3000/categories \
+-H "Content-Type: application/json" \
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJlZmxpeDIyIiwiaWF0IjoxNzIzMDc0OTE2LCJleHAiOjE3MjMwNzQ5NzZ9.KCPZEKT7I6qwQ2Ikux7rSr9PyMCvbIoY5qtmwE3s5G8" \
+-d '{"name": "Food"}'
