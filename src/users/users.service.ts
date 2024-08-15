@@ -5,12 +5,24 @@ import * as bcrypt from 'bcrypt';
 
 export type User = any;
 
+function omitPassword(user: User): Omit<User, 'password'> {
+  const { password, ...userWithoutPassword } = user;
+  return userWithoutPassword;
+}
 @Injectable()
 export class UsersService {
   constructor(private prisma: PrismaService) {}
 
-  async findOne(username: string): Promise<User | undefined> {
+  async findOne(
+    username: string,
+    includePassword: boolean = false,
+  ): Promise<User | Omit<User, 'password'> | undefined> {
     const user = await this.prisma.user.findUnique({ where: { username } });
+
+    if (user && !includePassword) {
+      return omitPassword(user);
+    }
+
     return user;
   }
 

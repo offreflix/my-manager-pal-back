@@ -20,7 +20,8 @@ export class AuthService {
     password: string,
   ): Promise<{ access_token: string }> {
     try {
-      const user = await this.usersService.findOne(username);
+      const user = await this.usersService.findOne(username, true);
+
       if (!user) {
         throw new UnauthorizedException("User or password doesn't match");
       }
@@ -52,6 +53,20 @@ export class AuthService {
       }
 
       return this.usersService.createUser(data);
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  }
+
+  async getProfile(req: { user: string }) {
+    try {
+      const user = await this.usersService.findOne(req.user);
+      if (!user) {
+        throw new UnauthorizedException("User or password doesn't match");
+      }
+
+      return user;
     } catch (error) {
       console.log(error);
       throw error;

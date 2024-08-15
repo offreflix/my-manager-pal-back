@@ -27,12 +27,12 @@ export class AuthController {
 
   @UseGuards(AuthGuard)
   @Get('profile')
-  getProfile(@Request() req) {
-    return req.user;
+  getProfile(@Request() req: { user: { username: string } }) {
+    return this.authService.getProfile({ user: req.user.username });
   }
 
   @Public()
-  @Post('register')
+  @Post('sign-up')
   register(@Body() body: CreateUserDto) {
     return this.authService.register(body);
   }
