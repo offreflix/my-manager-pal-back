@@ -13,6 +13,7 @@ import { AuthService } from './auth.service';
 import { Public } from 'src/decorators/public.decorator';
 import { CreateUserDto } from 'src/users/dto/user.dto';
 import { SignInDTO } from './dto/sign-in.dto';
+import { Request as ExpressRequest } from 'express';
 
 @Controller('auth')
 export class AuthController {
@@ -27,8 +28,8 @@ export class AuthController {
 
   @UseGuards(AuthGuard)
   @Get('profile')
-  getProfile(@Request() req: { user: { username: string } }) {
-    return this.authService.getProfile({ user: req.user.username });
+  getProfile(@Request() req: ExpressRequest) {
+    return this.authService.getProfile(req);
   }
 
   @Public()

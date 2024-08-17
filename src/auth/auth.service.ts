@@ -7,6 +7,7 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
+import { Request } from 'express';
 
 @Injectable()
 export class AuthService {
@@ -32,7 +33,7 @@ export class AuthService {
         throw new UnauthorizedException("User or password doesn't match");
       }
 
-      const payload = { sub: user.userId, username: user.username };
+      const payload = { sub: user.userId, user: user.username };
       return {
         access_token: await this.jwtService.signAsync(payload),
       };
@@ -59,16 +60,25 @@ export class AuthService {
     }
   }
 
-  async getProfile(req: { user: string }) {
+  async getProfile(req: Request) {
+    const token = req.cookies['myManagerPal.token'];
+
+    if (!token) {
+      throw new UnauthorizedException('No token provided');
+    }
+
+    const decodedToken = this.jwtService.verify(token);
+
+    console.log(decodedToken);
+
     try {
-      const user = await this.usersService.findOne(req.user);
+      const user = await this.usersService.findOne(decodedToken.user);
       if (!user) {
         throw new UnauthorizedException("User or password doesn't match");
       }
 
       return user;
     } catch (error) {
-      console.log(error);
       throw error;
     }
   }
